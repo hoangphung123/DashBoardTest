@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './App.css'
-import Dashboard from './pages/Dashboard'
 import { Box, AppBar, Toolbar, Typography, IconButton, InputBase, Button } from '@mui/material';
 import { Search as SearchIcon, RestartAlt } from '@mui/icons-material';
 import TopProducts from './components/TopProduct';
