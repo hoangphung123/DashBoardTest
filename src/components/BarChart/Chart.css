@@ -1,0 +1,57 @@
+.chart-container {
+    display: flex;
+    margin: 20px auto;
+    width: 80%;
+  }
+
+  .y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 40px;
+    margin-right: 10px;
+  }
+
+  .y-axis-label {
+    font-size: 12px;
+    text-align: right;
+  }
+
+  .chart {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+  }
+
+  .product {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 60px;
+  }
+
+  .bar {
+    width: 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+  }
+
+  .plan {
+    background-color: #4caf50; /* Màu xanh cho kế hoạch */
+  }
+
+  .actual {
+    background-color: #ff5733; /* Màu đỏ cho thực hiện */
+  }
+
+  .x-axis {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .x-axis span {
+    font-size: 12px;
+  }
