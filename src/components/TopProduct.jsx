@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Paper, Typography, Card, CardContent } from '@mui/material';
+import { Box, Paper, Typography, Card, CardContent, useMediaQuery } from '@mui/material';
 import arrowUp from '../assets/arrow-up.png';
 import arrowDown from '../assets/arrow-down.png';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
@@ -13,6 +13,7 @@ const originalProducts = [
 
 const TopProducts = ({ isDataEmpty }) => {
   const [products, setProducts] = useState(originalProducts);
+  const isSmallScreen = useMediaQuery('(max-width:880px)');
 
   useEffect(() => {
     setProducts(isDataEmpty ? [] : originalProducts);
@@ -41,13 +42,18 @@ const TopProducts = ({ isDataEmpty }) => {
       </Box>
       
       {hasData ? (
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+        <Box sx={{ 
+          display: 'grid',
+          gridTemplateColumns: isSmallScreen 
+            ? 'repeat(auto-fit, minmax(150px, 1fr))'
+            : 'repeat(5, 1fr)',
+          gap: 2
+        }}>
           {products.map((product, index) => (
             <Card 
               key={index} 
               sx={{ 
-                flex: 1, 
-                minWidth: 150,
+                minWidth: isSmallScreen ? 'unset' : 150,
                 boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.06)',
                 borderRadius: 2,
                 position: 'relative'
@@ -104,13 +110,18 @@ const TopProducts = ({ isDataEmpty }) => {
           ))}
         </Box>
       ) : (
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+        <Box sx={{ 
+          display: 'grid',
+          gridTemplateColumns: isSmallScreen 
+            ? 'repeat(auto-fit, minmax(150px, 1fr))'
+            : 'repeat(5, 1fr)',
+          gap: 2
+        }}>
           {[1, 2, 3, 4, 5].map((_, index) => (
             <Card 
               key={index} 
               sx={{ 
-                flex: 1, 
-                minWidth: 150,
+                minWidth: isSmallScreen ? 'unset' : 150,
                 boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.06)',
                 borderRadius: 2
               }}
