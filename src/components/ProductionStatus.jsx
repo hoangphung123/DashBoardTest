@@ -1,19 +1,95 @@
 import React, { useState, useEffect } from "react";
 import { Paper, Typography, Box } from "@mui/material";
-import { PieChart, Pie, Cell, ResponsiveContainer, Label } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Label, Sector } from "recharts";
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 
 const originalData = [
-  { name: "Chưa hoàn thành", value: 5, color: "#FF9800" },
-  { name: "Đang sản xuất", value: 6, color: "#2196F3" },
-  { name: "Hoàn thành", value: 5, color: "#4CAF50" },
+  { name: "Chưa hoàn thành", value: 5, color: "#FF9800", percentage: "30%" },
+  { name: "Đang sản xuất", value: 6, color: "#2196F3", percentage: "40%" },
+  { name: "Hoàn thành", value: 5, color: "#4CAF50", percentage: "30%" },
 ];
 
 const emptyData = [
-  { name: "Chưa hoàn thành", value: 1, color: "#F5F5F5" },
-  { name: "Đang sản xuất", value: 1, color: "#F5F5F5" },
-  { name: "Hoàn thành", value: 1, color: "#F5F5F5" },
+  { name: "Chưa hoàn thành", value: 1, color: "#F5F5F5", percentage: "0%" },
+  { name: "Đang sản xuất", value: 1, color: "#F5F5F5", percentage: "0%" },
+  { name: "Hoàn thành", value: 1, color: "#F5F5F5", percentage: "0%" },
 ];
+
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, color }) => {
+  const RADIAN = Math.PI / 180;
+  
+  // Calculate the end point for the first line (horizontal)
+  const radius = outerRadius * 1.2;
+  let x1, x2, y1, y2;
+
+  // Calculate starting point based on section
+  if (name === "Hoàn thành") {
+    // For the green section, start from the outer edge at around 135 degrees
+    const startAngle = -135 * RADIAN; // Adjusted angle to match the middle of the green section
+    x1 = cx + outerRadius * Math.cos(startAngle);
+    y1 = cy + outerRadius * Math.sin(startAngle);
+    
+    // Adjust the second point to create a smoother angle
+    x2 = cx - 100; // Move further to the left
+    y2 = cy - 30; // Adjust height to create a better angle
+  } else {
+    // For other sections, keep the original calculation
+    x1 = cx + outerRadius * Math.cos(-midAngle * RADIAN);
+    y1 = cy + outerRadius * Math.sin(-midAngle * RADIAN);
+    
+    // For other sections
+    x2 = cx + (outerRadius + 20) * Math.cos(-midAngle * RADIAN);
+    y2 = cy + (outerRadius + 20) * Math.sin(-midAngle * RADIAN);
+  }
+  
+  // Third point (end of horizontal line)
+  let x3;
+  if (name === "Hoàn thành") {
+    x3 = cx - radius - 20; // Extend the line further left
+    y2 = cy - 30; // Keep the same adjusted height
+  } else if (midAngle > 90 && midAngle < 270) {
+    x3 = cx - radius; // Left side
+  } else {
+    x3 = cx + radius; // Right side
+  }
+  
+  return (
+    <g>
+      {/* First line (from pie to bend) */}
+      <line
+        x1={x1}
+        y1={y1}
+        x2={x2}
+        y2={y2}
+        stroke={color}
+        strokeWidth={1}
+      />
+      
+      {/* Second line (horizontal) */}
+      <line
+        x1={x2}
+        y1={y2}
+        x2={x3}
+        y2={y2}
+        stroke={color}
+        strokeWidth={1}
+      />
+      
+      {/* Percentage text */}
+      <text
+        x={x3}
+        y={y2}
+        fill={color}
+        textAnchor={name === "Hoàn thành" ? 'end' : (midAngle > 90 && midAngle < 270 ? 'end' : 'start')}
+        dominantBaseline="central"
+        fontSize="14"
+        fontWeight="bold"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    </g>
+  );
+};
 
 const ProductionStatus = ({ isDataEmpty }) => {
   const [data, setData] = useState(originalData);
@@ -66,6 +142,8 @@ const ProductionStatus = ({ isDataEmpty }) => {
               dataKey="value"
               blendStroke
               cornerRadius={6}
+              labelLine={false}
+              label={renderCustomizedLabel}
             >
               {chartData.map((entry, index) => (
                 <Cell
