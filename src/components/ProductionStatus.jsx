@@ -9,6 +9,12 @@ const originalData = [
   { name: "Hoàn thành", value: 5, color: "#4CAF50" },
 ];
 
+const emptyData = [
+  { name: "Chưa hoàn thành", value: 1, color: "#F5F5F5" },
+  { name: "Đang sản xuất", value: 1, color: "#F5F5F5" },
+  { name: "Hoàn thành", value: 1, color: "#F5F5F5" },
+];
+
 const ProductionStatus = ({ isDataEmpty }) => {
   const [data, setData] = useState(originalData);
 
@@ -18,18 +24,8 @@ const ProductionStatus = ({ isDataEmpty }) => {
 
   const totalOrders = data.reduce((sum, item) => sum + item.value, 0);
   
-  // Create equal segments data when all values are 0
-  const chartData = data.map(item => ({
-    ...item,
-    // If all values are 0, set each segment to 1 for equal distribution
-    value: totalOrders === 0 ? 1 : item.value
-  }));
-
-  // Calculate percentages for labels
-  const getPercentage = (value) => {
-    if (totalOrders === 0) return '';
-    return `${Math.round((value / totalOrders) * 100)}%`;
-  };
+  // Use empty data when there's no data
+  const chartData = data.length > 0 ? data : emptyData;
 
   return (
     <Paper sx={{ p: 2, position: "relative" }}>
@@ -74,48 +70,10 @@ const ProductionStatus = ({ isDataEmpty }) => {
               {chartData.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={totalOrders === 0 ? "#F5F5F5" : entry.color}
+                  fill={entry.color}
                   stroke="none"
                 />
               ))}
-              {chartData.map((entry, index) => {
-                if (totalOrders === 0) return null;
-                const percentage = getPercentage(entry.value);
-                return (
-                  <Label
-                    key={`label-${index}`}
-                    position="outside"
-                    content={({ viewBox: { cx, cy }}) => {
-                      const RADIAN = Math.PI / 180;
-                      const radius = 100;
-                      // Calculate position based on segment
-                      const total = chartData.reduce((sum, item) => sum + item.value, 0);
-                      let angle = 90; // Start from top
-                      for (let i = 0; i < index; i++) {
-                        angle += (chartData[i].value / total) * 360;
-                      }
-                      angle += (entry.value / total) * 360 / 2; // Add half of current segment
-                      
-                      const x = cx + radius * Math.cos(-RADIAN * angle);
-                      const y = cy + radius * Math.sin(-RADIAN * angle);
-                      
-                      // return (
-                      //   <text 
-                      //     x={x} 
-                      //     y={y} 
-                      //     fill={entry.color}
-                      //     textAnchor="middle" 
-                      //     dominantBaseline="middle"
-                      //     fontSize="14"
-                      //     fontWeight="500"
-                      //   >
-                      //     {percentage}
-                      //   </text>
-                      // );
-                    }}
-                  />
-                );
-              })}
             </Pie>
           </PieChart>
         </ResponsiveContainer>
@@ -162,7 +120,7 @@ const ProductionStatus = ({ isDataEmpty }) => {
           gap: 2,
         }}
       >
-        {data.map((item, index) => (
+        {originalData.map((item, index) => (
           <Box 
             key={index}
             sx={{
@@ -175,13 +133,13 @@ const ProductionStatus = ({ isDataEmpty }) => {
             <Typography 
               variant="h6" 
               sx={{ 
-                color: item.color,
+                color: data.length > 0 ? item.color : '#666',
                 fontSize: '24px',
                 fontWeight: 'bold',
                 mb: 0.5
               }}
             >
-              {item.value}
+              {data.length > 0 ? item.value : 0}
             </Typography>
             <Typography 
               variant="body2" 
