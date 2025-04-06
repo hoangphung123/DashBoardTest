@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Paper, Typography, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { IconButton } from '@mui/material';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import Image1 from '../assets/Image1.png';
 import EmptyImage from '../assets/stack.png';
 
-const materials = [
+const originalMaterials = [
   { stt: 1, name: 'Chỉ cotton', id: 'NVL_000014', unit: 'Cuộn', quantity: 8 },
   { stt: 2, name: 'Vải lụa', id: 'NVL_000024', unit: 'Mét', quantity: 8 },
   { stt: 3, name: 'Vải lót', id: 'NVL_000024', unit: 'Mét', quantity: 8 },
   { stt: 4, name: 'Vải chống thấm', id: 'NVL_000024', unit: 'Mét', quantity: 8 }
 ];
 
-const MaterialPurchase = () => {
+const MaterialPurchase = ({ isDataEmpty }) => {
+  const [materials, setMaterials] = useState(originalMaterials);
+
+  useEffect(() => {
+    setMaterials(isDataEmpty ? [] : originalMaterials);
+  }, [isDataEmpty]);
+
   return (
     <Paper sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>

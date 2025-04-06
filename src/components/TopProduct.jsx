@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Paper, Typography, Card, CardContent } from '@mui/material';
 import arrowUp from '../assets/arrow-up.png';
 import arrowDown from '../assets/arrow-down.png';
 
-const products = [
+const originalProducts = [
     { count: 48, name: 'Áo sơ mi dài tay', percentage: 8.2, trend: 'up' },
     { count: 18, name: 'Quần tây', percentage: -5, trend: 'down' },
     { count: 40, name: 'Áo hoodie', percentage: 12, trend: 'up' },
@@ -11,8 +11,14 @@ const products = [
     { count: 48, name: 'Áo thun cổ tròn', percentage: 4.7, trend: 'up' },
 ];
 
-const TopProducts = () => {
-  const hasData = products.some(product => product.count > 0);
+const TopProducts = ({ isDataEmpty }) => {
+  const [products, setProducts] = useState(originalProducts);
+
+  useEffect(() => {
+    setProducts(isDataEmpty ? [] : originalProducts);
+  }, [isDataEmpty]);
+
+  const hasData = products.length > 0;
 
   return (
     <Paper sx={{ p: 2 }}>

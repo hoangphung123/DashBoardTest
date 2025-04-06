@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Paper, Typography, Box } from "@mui/material";
 import { PieChart, Pie, Cell, ResponsiveContainer, Label } from "recharts";
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 
-const data = [
+const originalData = [
   { name: "Chưa hoàn thành", value: 5, color: "#FF9800" },
   { name: "Đang sản xuất", value: 6, color: "#2196F3" },
   { name: "Hoàn thành", value: 5, color: "#4CAF50" },
 ];
 
-const ProductionStatus = () => {
+const ProductionStatus = ({ isDataEmpty }) => {
+  const [data, setData] = useState(originalData);
+
+  useEffect(() => {
+    setData(isDataEmpty ? [] : originalData);
+  }, [isDataEmpty]);
+
   const totalOrders = data.reduce((sum, item) => sum + item.value, 0);
   
   // Create equal segments data when all values are 0

@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import Dashboard from './pages/Dashboard'
 import { Box, AppBar, Toolbar, Typography, IconButton, InputBase, Button } from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
+import { Search as SearchIcon, RestartAlt } from '@mui/icons-material';
 import TopProducts from './components/TopProduct';
 import ProductionPlan from './components/ProductPlan';
 import TopCustomers from './components/TopCustomers';
@@ -17,7 +17,14 @@ import MenuIcon from './assets/Menu.png';
 import GearIcon from './assets/icon/Gear.png';
 import MessageIcon from './assets/vuesax/linear/message-text.png';
 import QuestionIcon from './assets/Menu-1.png';
+
 function App() {
+  const [isDataEmpty, setIsDataEmpty] = useState(false);
+
+  const handleReset = () => {
+    setIsDataEmpty(prev => !prev);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: '#003399' }}>
@@ -111,8 +118,20 @@ function App() {
                 }} 
               />
             </Box>
+            <IconButton 
+              onClick={handleReset}
+              sx={{ 
+                p: 1, 
+                color: 'white',
+                '&:hover': { 
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)' 
+                }
+              }}
+            >
+              <RestartAlt />
+            </IconButton>
             <IconButton sx={{ p: 1 }}>
-              <Box component="img" src={GearIcon}  />
+              <Box component="img" src={GearIcon} />
             </IconButton>
             <IconButton sx={{ p: 1 }}>
               <Box component="img" src={MessageIcon}  />
@@ -129,15 +148,15 @@ function App() {
       </AppBar>
 
       <Box sx={{ p: 3 }}>
-        <TopProducts />
+        <TopProducts isDataEmpty={isDataEmpty} />
         <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3, mt: 3 }}>
-          <ProductionPlan />
-          <TopCustomers />
+          <ProductionPlan isDataEmpty={isDataEmpty} />
+          <TopCustomers isDataEmpty={isDataEmpty} />
         </Box>
         <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 3, mt: 3 }}>
-          <ProductionStatus />
-          <ProductionProgress />
-          <MaterialPurchase />
+          <ProductionStatus isDataEmpty={isDataEmpty} />
+          <ProductionProgress isDataEmpty={isDataEmpty} />
+          <MaterialPurchase isDataEmpty={isDataEmpty} />
         </Box>
       </Box>
     </Box>

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Paper, Typography, Box, LinearProgress } from "@mui/material";
 
-const data = [
+const originalData = [
   { name: "Áo sơ mi dài tay", completed: 123, total: 150 },
   { name: "Áo sơ mi cổ tròn", completed: 321, total: 450 },
   { name: "Quần baggy", completed: 231, total: 500 },
@@ -11,7 +11,13 @@ const data = [
   { name: "Áo khoác bomber", completed: 543, total: 750 },
 ];
 
-const ProductionProgress = () => {
+const ProductionProgress = ({ isDataEmpty }) => {
+  const [data, setData] = useState(originalData);
+
+  useEffect(() => {
+    setData(isDataEmpty ? [] : originalData);
+  }, [isDataEmpty]);
+
   const defaultData = Array(7).fill({
     name: "Chưa có mặt hàng",
     completed: 0,

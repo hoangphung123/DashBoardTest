@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Paper, Typography, Box } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -11,13 +11,13 @@ const emptyData = [
   { name: '-', value: 0 },
 ];
 
-const data =  [
+const originalData =  [
   { name: 'Công ty CNT Happy Point', value: 2100 },
   { name: 'Công ty May ngọc Saigon Hanoi', value: 1950 },
   { name: 'Outlet Lemon apparel', value: 1800 },
   { name: 'Shop quần áo mechanic focus', value: 1600 },
   { name: 'Shop thời trang công sở Basic Office', value: 1400 },
-]
+];
 
 const CustomizedLabel = ({ x, y, width, value }) => {
     return (
@@ -27,7 +27,13 @@ const CustomizedLabel = ({ x, y, width, value }) => {
     );
 };
 
-const TopCustomers = () => {
+const TopCustomers = ({ isDataEmpty }) => {
+  const [data, setData] = useState(originalData);
+
+  useEffect(() => {
+    setData(isDataEmpty ? [] : originalData);
+  }, [isDataEmpty]);
+
   const chartData = data.length > 0 ? data : emptyData;
 
   return (

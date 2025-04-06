@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Paper, Typography, Box } from "@mui/material";
 import {
   BarChart,
@@ -13,7 +13,7 @@ import {
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import EmptyImage from '../assets/stack.png';
 
-const data = [
+const originalData = [
   { name: "Hải long", plan: 60, actual: 40 },
   { name: "Áo len lỡ", plan: 80, actual: 65 },
   { name: "Áo sơ mi", plan: 70, actual: 30 },
@@ -31,7 +31,13 @@ const emptyData = [
   { name: "-" },
 ];
 
-const ProductionPlan = () => {
+const ProductionPlan = ({ isDataEmpty }) => {
+  const [data, setData] = useState(originalData);
+
+  useEffect(() => {
+    setData(isDataEmpty ? [] : originalData);
+  }, [isDataEmpty]);
+
   const chartData = data.length > 0 ? data : emptyData;
   return (
     <Paper sx={{ p: 2 }}>
