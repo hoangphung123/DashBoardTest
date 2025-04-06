@@ -9,15 +9,15 @@ import TopCustomers from './components/TopCustomers';
 import ProductionStatus from './components/ProductionStatus';
 import ProductionProgress from './components/ProductionProgress';
 import MaterialPurchase from './components/MaterialPurchase';
-import Chart from './components/BarChart/Chart';
+import ChangeIcon from './assets/vuesax/outline/convertshape-2.png';
 
 // Import icons
-import Logo from './assets/Rectangle 2026.png';
-import MenuIcon from './assets/Menu.png';
+import Logo from './assets/Logo.png';
+import Group from './assets/Group.png';
 import GearIcon from './assets/icon/Gear.png';
 import MessageIcon from './assets/vuesax/linear/message-text.png';
 import QuestionIcon from './assets/Menu-1.png';
-
+import MenuIcon from './assets/Menu.png';
 function App() {
   const [isDataEmpty, setIsDataEmpty] = useState(false);
 
@@ -31,8 +31,8 @@ function App() {
         <Toolbar sx={{ gap: 2 }}>
           <Box 
             component="img" 
-            src={Logo} 
-            alt="Logo"
+            src={Group} 
+            alt="Group"
             sx={{ height: 32 }}
           />
           <Box sx={{ display: 'flex', gap: 3 }}>
@@ -134,13 +134,19 @@ function App() {
               <Box component="img" src={GearIcon} />
             </IconButton>
             <IconButton sx={{ p: 1 }}>
-              <Box component="img" src={MessageIcon}  />
+              <Box component="img" src={ChangeIcon}  />
             </IconButton>
+            <IconButton sx={{ p: 1 }}>
+              <Box component="img" src={MessageIcon}  />
+            </IconButton> 
             <IconButton sx={{ p: 1 }}>
               <Box component="img" src={MenuIcon}  />
             </IconButton>
             <IconButton sx={{ p: 1 }}>
               <Box component="img" src={QuestionIcon}  />
+            </IconButton>
+            <IconButton sx={{ p: 1 }}>
+              <Box component="img" src={Logo}  />
             </IconButton>
            
           </Box>

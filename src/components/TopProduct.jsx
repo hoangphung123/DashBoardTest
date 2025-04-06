@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Paper, Typography, Card, CardContent } from '@mui/material';
 import arrowUp from '../assets/arrow-up.png';
 import arrowDown from '../assets/arrow-down.png';
-
+import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 const originalProducts = [
     { count: 48, name: 'Áo sơ mi dài tay', percentage: 8.2, trend: 'up' },
     { count: 18, name: 'Quần tây', percentage: -5, trend: 'down' },
@@ -35,6 +35,7 @@ const TopProducts = ({ isDataEmpty }) => {
           alignItems: 'center',
           gap: 0.5
         }}>
+           <CalendarTodayOutlinedIcon sx={{ fontSize: 20, mr: 1, color: '#666' }} />
           <Typography variant="body2" sx={{ color: '#666' }}>Tháng này</Typography>
         </Box>
       </Box>

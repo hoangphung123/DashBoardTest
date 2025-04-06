@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Paper, Typography, Box } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
+import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 // Empty data with just the structure for Y-axis labels
 const emptyData = [
   { name: '-', value: 0 },
@@ -52,6 +52,7 @@ const TopCustomers = ({ isDataEmpty }) => {
           gap: 0.5,
           
         }}>
+          <CalendarTodayOutlinedIcon sx={{ fontSize: 20, mr: 1, color: '#666' }} />
           <Typography variant="body2" sx={{ color: '#666' }}>Năm nay</Typography>
         </Box>
       </Box>
